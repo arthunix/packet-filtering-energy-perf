@@ -39,6 +39,14 @@ sudo apt autoremove && sudo apt clean && sudo apt autoclean -y
 ```
 
 ## install on Debian 12 Bookworm armv7l GNU/Linux (Raspberry Pi OS)
+```sh
+sudo apt update && sudo apt upgrade -y
+sudo apt install raspberrypi-kernel-headers -y
+sudo apt install build-essential clang llvm git libc6-dev libelf-dev m4 libpcap-dev   \
+                iperf3 hping3 python3 python-is-python3 binutils-dev pkg-config wget  \
+                libbpf-dev sysstat xdp-tools tcpdump linux-perf iproute2 -y
+sudo apt autoremove && sudo apt clean && sudo apt autoclean -y
+```
 
 ## install on Ubuntu 20.04 LTS x86_64 GNU/Linux
 ```sh
