@@ -27,8 +27,8 @@ sudo wget -O /usr/share/d3-flame-graph/d3-flamegraph-base.html https://cdn.jsdel
 ```sh
 sudo apt update && sudo apt upgrade -y
 sudo apt install linux-headers-$(uname -r) -y
-sudo apt install build-essential clang llvm git libc6-dev libelf-dev m4 libpcap-dev \
-                iperf3 hping3 python3 python-is-python3 binutils-dev pkg-config wget \
+sudo apt install build-essential clang llvm git libc6-dev libelf-dev m4 libpcap-dev   \
+                iperf3 hping3 python3 python-is-python3 binutils-dev pkg-config wget  \
                 libbpf-dev sysstat xdp-tools tcpdump linux-perf iproute2 bpftrace -y
 sudo apt autoremove && sudo apt clean && sudo apt autoclean -y
 ```
@@ -36,6 +36,16 @@ sudo apt autoremove && sudo apt clean && sudo apt autoclean -y
 ## install on Debian 12 Bookworm armv7l GNU/Linux (Raspberry Pi OS)
 
 ## install on Ubuntu 20.04 LTS x86_64 GNU/Linux
+```sh
+sudo apt update && sudo apt upgrade -y
+sudo apt install linux-headers-$(uname -r) -y
+# xdp-tools not available, just for Ubuntu Mantic, Lunar and Kinetic
+sudo apt install build-essential clang llvm git libc6-dev libelf-dev m4 libpcap-dev      \
+                 iperf3 hping3 iproute2 bpftrace python3 python-is-python3 binutils-dev  \
+                 pkg-config wget libbpf-dev sysstat tcpdump linux-tools-common           \
+                 linux-tools-generic linux-tools-$(uname -r) -y
+sudo apt autoremove && sudo apt clean && sudo apt autoclean -y
+```
 
 ## TEST EXPLANATION:
 ### test 1: filter at userspace with tracking (conntrack)
