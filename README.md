@@ -45,6 +45,10 @@ sudo apt install build-essential clang llvm git libc6-dev libelf-dev m4 libpcap-
                  pkg-config wget libbpf-dev sysstat tcpdump linux-tools-common           \
                  linux-tools-generic linux-tools-$(uname -r) -y
 sudo apt autoremove && sudo apt clean && sudo apt autoclean -y
+wget https://github.com/xdp-project/xdp-tools/releases/download/v1.4.0/xdp-tools-1.4.0.tar.gz
+tar -xvf xdp-tools-1.4.0
+./configure
+make && sudo make install
 ```
 
 ## TEST EXPLANATION:
