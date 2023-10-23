@@ -17,6 +17,11 @@
 sudo mkdir /usr/share/d3-flame-graph/
 sudo wget -O /usr/share/d3-flame-graph/d3-flamegraph-base.html https://cdn.jsdelivr.net/npm/d3-flame-graph@4/dist/templates/d3-flamegraph-base.html
 ```
+```sh
+# there is a script capture mw100 reads, it is proprietary, I don´t have author autorization to publish
+https://github.com/arthunix/scripts
+https://github.com/arthunix/scripts/blob/main/measure_mw100
+```
 
 ## tested on
 - `Ubuntu 20.04 LTS x86_64 GNU/Linux`
