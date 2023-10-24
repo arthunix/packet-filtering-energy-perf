@@ -35,5 +35,5 @@ fi
 
 while true
 do
-    sudo iptables -L -v -n -t raw >> $fName && sudo iptables -L -v -n -t filter >> $fName && mpstat -u -I SUM -P ALL 1 1 | grep -E -v Aver >> $fName
+    sudo iptables-legacy -L -v -n -t raw >> $fName && sudo iptables-legacy -L -v -n -t filter >> $fName && mpstat -u -I SUM -P ALL 1 1 | grep -E -v Aver >> $fName
 done

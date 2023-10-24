@@ -14,12 +14,18 @@ help()
 
 while getopts ":h:i:p:d:" option; do
     case $option in
-        h)
-            help
-            exit
-            ;;
         i)
             iFace=$OPTARG
+            ;;
+        d)
+            dAddr=$OPTARG
+            ;;
+        p)
+            dPort=$OPTARG
+            ;;
+        \?)
+            echo "error, invalid option"
+            exit
             ;;
         \?)
             echo "error, invalid option"
@@ -36,5 +42,5 @@ if [ -z "$dPort" ] || [ -z "$dAddr" ] || [ -z "$iFace" ]; then
 fi
 
 sudo xdp-filter load -m skb $iFace
-sudo xdp-filter ip $dAddr -m dst
+#sudo xdp-filter ip $dAddr -m dst
 sudo xdp-filter port -m dst $dPort -p udp
