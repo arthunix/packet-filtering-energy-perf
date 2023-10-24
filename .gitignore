@@ -56,3 +56,6 @@ dkms.conf
 *_filter
 *_flamegraph.html
 temp
+*.svg
+*.foled
+*.perf

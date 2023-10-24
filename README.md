@@ -160,3 +160,9 @@ sudo xdp-filter port -m dst $dPort -p udp
 sudo xdp-filter status >> $fName && mpstat -u -I SUM -P ALL 1 1 | grep -E -v Aver >> $fName
 ```
 
+## bpftrace (don't work in raspberry armv7l)
+```sh
+sudo bpftrace -o perf-bpftrace.perf -e 'kprobe:napi_gro_receive { @[kstack] = count(); }'
+./scripts/stackcollapse-bpftrace.pl perf-bpftrace.perf > perf-bpftrace.foled
+./scripts/flamegraph.pl perf-bpftrace.foled > perf-bpftrace.svg
+```
