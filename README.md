@@ -163,7 +163,8 @@ sudo xdp-filter status >> $fName && mpstat -u -I SUM -P ALL 1 1 | grep -E -v Ave
 
 ## bpftrace (don't work in raspberry armv7l)
 ```sh
-sudo bpftrace -o perf-bpftrace.perf -e 'kprobe:napi_gro_receive { @[kstack] = count(); }'
+# sudo bpftrace -o perf-bpftrace.perf -e 'kprobe:napi_gro_receive { @[kstack] = count(); }'
+bpftrace -e 'profile:hz:99 { @[kstack] = count(); }'
 ./scripts/stackcollapse-bpftrace.pl perf-bpftrace.perf > perf-bpftrace.foled
 ./scripts/flamegraph.pl perf-bpftrace.foled > perf-bpftrace.svg
 ```
