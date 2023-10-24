@@ -8,6 +8,7 @@
 - `libbpf` and `libxdp`
 - `bpftrace`
 - `xdp-tools`
+- `ZeroMQ`
 
 - `Flamegraph` Available: `https://github.com/brendangregg/FlameGraph`
 - `perf-script` Available on folder: `/usr/lib/perf-core/scripts/python/flamegraph.py`
@@ -34,7 +35,7 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install linux-headers-$(uname -r) -y
 sudo apt install build-essential clang llvm git libc6-dev libelf-dev m4 libpcap-dev   \
                 iperf3 hping3 python3 python-is-python3 binutils-dev pkg-config wget  \
-                libbpf-dev sysstat xdp-tools tcpdump linux-perf iproute2 bpftrace -y
+                libbpf-dev sysstat xdp-tools tcpdump linux-perf iproute2 bpftrace python3-zmq -y
 sudo apt autoremove && sudo apt clean && sudo apt autoclean -y
 ```
 
@@ -44,7 +45,7 @@ sudo apt update && sudo apt upgrade -y
 sudo apt install raspberrypi-kernel-headers -y
 sudo apt install build-essential clang llvm git libc6-dev libelf-dev m4 libpcap-dev   \
                 iperf3 hping3 python3 python-is-python3 binutils-dev pkg-config wget  \
-                libbpf-dev sysstat xdp-tools tcpdump linux-perf iproute2 -y
+                libbpf-dev sysstat xdp-tools tcpdump linux-perf iproute2 python3-zmq -y
 sudo apt autoremove && sudo apt clean && sudo apt autoclean -y
 ```
 
@@ -56,7 +57,7 @@ sudo apt install linux-headers-$(uname -r) -y
 sudo apt install build-essential clang llvm git libc6-dev libelf-dev m4 libpcap-dev      \
                  iperf3 hping3 iproute2 bpftrace python3 python-is-python3 binutils-dev  \
                  pkg-config wget libbpf-dev sysstat tcpdump linux-tools-common           \
-                 linux-tools-generic linux-tools-$(uname -r) -y
+                 python3-zmq linux-tools-generic linux-tools-$(uname -r) -y
 sudo apt autoremove && sudo apt clean && sudo apt autoclean -y
 wget https://github.com/xdp-project/xdp-tools/releases/download/v1.4.0/xdp-tools-1.4.0.tar.gz
 tar -xvf xdp-tools-1.4.0

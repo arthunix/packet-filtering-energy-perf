@@ -107,8 +107,6 @@ def __test_masure():
 
     __grab_flamegraph()
 
-
-
     time.sleep(1)
 
 def execute_test_1():
