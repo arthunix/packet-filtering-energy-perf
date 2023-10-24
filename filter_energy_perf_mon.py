@@ -21,10 +21,11 @@ DPORT = '12345'
 SPORT = '12345'
 
 def __send_packets(size):
-    subprocess.run(['./filter_packet_send.sh -i '+ SNETIF +' -d '+ DADDR +' -p '+ DPORT +' -s '+ size])
+    subprocess.run(['./filter_packet_send.sh -i '+ SNETIF +' -d '+ DADDR +' -p '+ DPORT +' -s '+ str(size)], shell=True)
 
 for pktSzIt in [16,32,64,128,256,512,1024,1472]:
-    #sp = multiprocessing.Process(target=__send_packets, args=(pktSzIt))
+    sp = multiprocessing.Process(target=__send_packets, args=(pktSzIt,))
+    sp.start()
     for TestIt in [1,2,3,4,5,6,7,8,9,10]:
         for TestNumIt in [1,2,3,4,5,6,7,8,9]:
             print("packet size      : %s" % pktSzIt)
@@ -37,3 +38,4 @@ for pktSzIt in [16,32,64,128,256,512,1024,1472]:
 
             message = socket.recv()
             print("Received reply %s [ %s ]" % (request, message))
+    sp.kill()
