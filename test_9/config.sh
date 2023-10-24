@@ -2,7 +2,7 @@
 
 help()
 {
-   echo "test_7_config_tool: filter at kernel netfilter (nftables ingress)"
+   echo "test_9_config_tool: filter at kernel device driver (xdp - express data path)"
    echo "Syntax: : filter [-h | -i interface | -d dest. addr | -p dest. port]"
    echo "options:"
    echo "i     Network Interaface."

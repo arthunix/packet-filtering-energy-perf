@@ -28,9 +28,10 @@ def __unconfig_rules():
 # - test 7, 8, and 9 configurure rules on nftables/tc/xdp respectively and receive ipaddr, dport, ifce
 def __configure_rules():
     NUMBER = msg_list[-2]
-    if( (int(msg_list[-3]) == 1) or (int(msg_list[-3]) == 2) or (int(msg_list[-3]) == 5) or (int(msg_list[-3]) == 6) ):
+    
+    if( (int(NUMBER) == 1) or (int(NUMBER) == 2) or (int(NUMBER) == 5) or (int(NUMBER) == 6) ):
         subprocess.run(['./test_'+ NUMBER +'/config.sh -d '+ DADDR +' -p '+ DPORT], shell=True)
-    elif( (int(msg_list[-3]) == 7) or (int(msg_list[-3]) == 8) or (int(msg_list[-3]) == 9) ):
+    elif( (int(NUMBER) == 7) or (int(NUMBER) == 8) or (int(NUMBER) == 9) ):
         subprocess.run(['./test_'+ NUMBER +'/config.sh -i '+ DNETIF +' -d '+ DADDR +' -p '+ DPORT], shell=True)
 
 # Abstraction to procedure to capture scripts written to tty (should work with watch and mmwatch, but is horrendous)
@@ -46,10 +47,6 @@ def __capture_tty(command, out):
 def __capture_stdout(command, out):
     with open(out, 'w') as f:
         subprocess.run([command], stdout=f, shell=True)
-
-# just subcommand the parameter, don't save to a file
-def __exec(command):
-    subprocess.run([command], shell=True)
 
 # just grab all events with perf and save to flamegraph.html
 def __grab_flamegraph():
@@ -78,15 +75,17 @@ def __test_filter_and_measure():
     f_out_2 = OUTPUT_F_PREFIX + 'filter'
 
     p2 = multiprocessing.Process(target=__capture_tty, args=(cmd_2, f_out_2))
-    p3 = multiprocessing.Process(target=__exec, args=(cmd_3))
+    p3 = multiprocessing.Process(target=__capture_stdout, args=(cmd_3, 'temp'))
     
-    p3.start()
     p2.start()
+    p3.start()
     
     __grab_flamegraph()
 
     p2.join()
     p3.join()
+
+    subprocess.run(['rm -rf temp'], shell=True)
 
     time.sleep(1)
 
@@ -99,12 +98,16 @@ def __test_masure():
 
     cmd_3 = 'sudo timeout ' + EXECUTE_FOR_TIME + ' ./test_'+ NUMBER +'/measure.sh -f ' + OUTPUT_F_PREFIX + 'measure'
 
-    if( int(msg_list[-2]) == 5 ):
+    if( (int(msg_list[-2]) == 8) ):
         cmd_3 = cmd_3 + ' -i ' + DNETIF
 
-    __exec(cmd_3)
+    __capture_stdout(cmd_3, 'temp')
+
+    subprocess.run(['rm -rf temp'], shell=True)
 
     __grab_flamegraph()
+
+
 
     time.sleep(1)
 
