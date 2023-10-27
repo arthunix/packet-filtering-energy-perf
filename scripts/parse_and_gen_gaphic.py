@@ -88,22 +88,24 @@ if __name__ == '__main__':
             #filter[str(pktSzIt)][str(TestNumIt)] = __extract_filter_content(file_contents)
 
     for pktSzIt in [16,32,64,128,256,512,1024,1472]:
+        
         energy_range = energy[str(pktSzIt)].keys()
         energy_range_val = energy[str(pktSzIt)].values()
-        cpu_range = energy[str(pktSzIt)].keys()
-        cpu_range_val = energy[str(pktSzIt)].values()
+        cpu_range = cpu[str(pktSzIt)].keys()
+        cpu_range_val = cpu[str(pktSzIt)].values()
+
+        range_tests = ['userspace', 'userspace no conntrack', 'bpf', 'ebpf', 'iptables pre routing', 'iptables input', 'nftables ingress', 'tc', 'xdp']
 
         fig, ax = plt.subplots()
-        ax.plot(energy_range, energy_range_val)
-        ax.set(xlabel='filter', ylabel='watts (W)', title='About as simple as it gets, folks')
-        ax.grid()
-
+        ax.bar(range_tests, energy_range_val)
+        ax.set(xlabel='filter', ylabel='watts (W)', title='')
+        fig.set_figwidth(20)
         fig.savefig(str(pktSzIt) + '_' + "energy.png")
 
-        ax.plot(cpu_range, cpu_range_val)
+        fig, ax = plt.subplots()
+        ax.bar(range_tests, cpu_range_val)
         ax.set(xlabel='filter', ylabel='watts (W)', title='About as simple as it gets, folks')
-        ax.grid()
-
+        fig.set_figwidth(20)
         fig.savefig(str(pktSzIt) + '_' + "cpu.png")
             
     subprocess.run(['mv -f *.png '+FOLDER], shell=True)
