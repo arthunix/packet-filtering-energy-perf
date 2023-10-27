@@ -1,11 +1,16 @@
 #!/usr/bin/python
 
+import sys
+import os
 import socket
 import time
 
-MW100_ADDR = '192.168.0.10'
-MW100_PORT = 34318
-MW100_CHNN = '7'
+parent_dir = os.path.dirname(os.path.realpath(__file__))
+sys.path.append(parent_dir)
+
+from constants import MW100_ADDR
+from constants import MW100_PORT
+from constants import MW100_CHNN
 
 MW100_FORMAT = 'FD0,'+MW100_CHNN+','+MW100_CHNN+'\n'
 

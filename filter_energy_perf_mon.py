@@ -3,24 +3,16 @@
 import zmq
 import multiprocessing
 import subprocess
-import datetime
 from filter_energy_perf_dut import __capture_tty
+from constants import SNETIF
+from constants import DADDR
+from constants import DPORT
 
 context = zmq.Context()
 
 print("Connecting to DUT server…")
 socket = context.socket(zmq.REQ)
 socket.connect("tcp://localhost:5555")
-
-EXECUTE_FOR_TIME = '30'     # in seconds
-EXECUTE_PERF_FOR_TIME = '5' # in seconds
-
-DNETIF = 'enp5s0f0'
-SNETIF = 'enp5s0f1'
-DADDR = '127.0.0.1'
-SADDR = '127.0.0.1'
-DPORT = '12345'
-SPORT = '12345'
 
 def __send_packets(size):
     subprocess.run(['./filter_packet_send.sh -i '+ SNETIF +' -d '+ DADDR +' -p '+ DPORT +' -s '+ str(size)], shell=True)

@@ -5,20 +5,15 @@ import zmq
 import multiprocessing
 import subprocess
 import datetime
+from constants import DNETIF
+from constants import DADDR
+from constants import DPORT
+from constants import EXECUTE_FOR_TIME
+from constants import EXECUTE_PERF_FOR_TIME
 
 context = zmq.Context()
 socket = context.socket(zmq.REP)
 socket.bind("tcp://*:5555")
-
-EXECUTE_FOR_TIME = '5'     # in seconds
-EXECUTE_PERF_FOR_TIME = '5' # in seconds
-
-DNETIF = 'enp5s0f0'
-DNETIF = 'enp5s0f1'
-DADDR = '127.0.0.1'
-SADDR = '127.0.0.1'
-DPORT = '12345'
-SPORT = '12345'
 
 # Abstraction to call function exec the script clean all rules
 def __unconfig_rules():
