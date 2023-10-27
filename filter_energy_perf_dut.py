@@ -4,6 +4,7 @@ import time
 import zmq
 import multiprocessing
 import subprocess
+import datetime
 
 context = zmq.Context()
 socket = context.socket(zmq.REP)
@@ -71,8 +72,8 @@ def __test_filter_and_measure():
     OUTPUT_F_PREFIX = msg_list[-4] + '_' + msg_list[-3] + '_' + msg_list[-2] + '_'
 
     cmd_2 = 'sudo timeout ' + EXECUTE_FOR_TIME + ' ./test_'+ NUMBER +'/filter'
-    cmd_3 = 'sudo timeout ' + EXECUTE_FOR_TIME + ' ./test_'+ NUMBER +'/measure.sh -f '+ OUTPUT_F_PREFIX + 'measure'
-    f_out_2 = OUTPUT_F_PREFIX + 'filter'
+    cmd_3 = 'sudo timeout ' + EXECUTE_FOR_TIME + ' ./test_'+ NUMBER +'/measure.sh -f '+ OUTPUT_F_PREFIX + 'measure.txt'
+    f_out_2 = OUTPUT_F_PREFIX + 'filter.txt'
 
     p2 = multiprocessing.Process(target=__capture_tty, args=(cmd_2, f_out_2))
     p3 = multiprocessing.Process(target=__capture_stdout, args=(cmd_3, 'temp'))
@@ -96,7 +97,7 @@ def __test_masure():
     NUMBER = msg_list[-2]
     OUTPUT_F_PREFIX = msg_list[-4] + '_' + msg_list[-3] + '_' + msg_list[-2] + '_'
 
-    cmd_3 = 'sudo timeout ' + EXECUTE_FOR_TIME + ' ./test_'+ NUMBER +'/measure.sh -f ' + OUTPUT_F_PREFIX + 'measure'
+    cmd_3 = 'sudo timeout ' + EXECUTE_FOR_TIME + ' ./test_'+ NUMBER +'/measure.sh -f ' + OUTPUT_F_PREFIX + 'measure.txt'
 
     if( (int(msg_list[-2]) == 8) ):
         cmd_3 = cmd_3 + ' -i ' + DNETIF
@@ -154,6 +155,9 @@ def execute_test_9():
     __test_masure()
     __unconfig_rules()
 
+timedate_stamp = str(datetime.datetime.now())
+folder_prefix = timedate_stamp.split(' ')[0] + '-' + timedate_stamp.split(' ')[1].split(':')[0] + '-' + timedate_stamp.split(' ')[1].split(':')[1]
+
 while True:
     message = socket.recv()
     print("Received request: %s" % message)
@@ -184,3 +188,9 @@ while True:
             execute_test_9()
 
     socket.send(message + "_done".encode())
+
+    subprocess.run(['mkdir measures/'+folder_prefix+'/'], shell=True)
+    subprocess.run(['mv *_measure.txt measures/'+folder_prefix+'/'], shell=True)
+    subprocess.run(['mv *_filter.txt measures/'+folder_prefix+'/'], shell=True)
+    subprocess.run(['mv *_energy.txt measures/'+folder_prefix+'/'], shell=True)
+    subprocess.run(['mv *.html measures/'+folder_prefix+'/'], shell=True)
