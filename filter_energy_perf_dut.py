@@ -50,7 +50,7 @@ def __grab_flamegraph():
 
     if(int(msg_list[-4]) == 16 and int(msg_list[-3]) == 1):
         subprocess.run(['sudo perf script flamegraph -a sleep '+ EXECUTE_PERF_FOR_TIME], shell=True)
-        subprocess.run(['mv flamegraph.html test_'+ NUMBER +'_flamegraph.html'], shell=True)
+        subprocess.run(['mv -f flamegraph.html test_'+ NUMBER +'_flamegraph.html'], shell=True)
 
 # sudo perf script flamegraph -a sleep 30 // send output to perf.data
 # sudo bpftrace -e 'profile:hz:99 { @[kstack] = count(); }' > perf.data
@@ -150,42 +150,43 @@ def execute_test_9():
     __test_masure()
     __unconfig_rules()
 
-timedate_stamp = str(datetime.datetime.now())
-folder_prefix = timedate_stamp.split(' ')[0] + '-' + timedate_stamp.split(' ')[1].split(':')[0] + '-' + timedate_stamp.split(' ')[1].split(':')[1]
-
-while True:
-    message = socket.recv()
-    print("Received request: %s" % message)
-
-    msg_list = message.decode().split("_")
-    print("packet size      : %s" % msg_list[-4])
-    print("test repetition  : %s" % msg_list[-3])
-    print("test number      : %s" % msg_list[-2])
-    
-    match int(msg_list[-2]):
-        case 1:
-            execute_test_1()
-        case 2:
-            execute_test_2()
-        case 3:
-            execute_test_3()
-        case 4:
-            execute_test_4()
-        case 5:
-            execute_test_5()
-        case 6:
-            execute_test_6()
-        case 7:
-            execute_test_7()
-        case 8:
-            execute_test_8()
-        case 9:
-            execute_test_9()
-
-    socket.send(message + "_done".encode())
-
+if __name__ == '__main__':
+    timedate_stamp = str(datetime.datetime.now())
+    folder_prefix = timedate_stamp.split(' ')[0] + '-' + timedate_stamp.split(' ')[1].split(':')[0] + '-' + timedate_stamp.split(' ')[1].split(':')[1]
     subprocess.run(['mkdir measures/'+folder_prefix+'/'], shell=True)
-    subprocess.run(['mv *_measure.txt measures/'+folder_prefix+'/'], shell=True)
-    subprocess.run(['mv *_filter.txt measures/'+folder_prefix+'/'], shell=True)
-    subprocess.run(['mv *_energy.txt measures/'+folder_prefix+'/'], shell=True)
-    subprocess.run(['mv *.html measures/'+folder_prefix+'/'], shell=True)
+
+    while True:
+        message = socket.recv()
+        print("Received request: %s" % message)
+
+        msg_list = message.decode().split("_")
+        print("packet size      : %s" % msg_list[-4])
+        print("test repetition  : %s" % msg_list[-3])
+        print("test number      : %s" % msg_list[-2])
+        
+        match int(msg_list[-2]):
+            case 1:
+                execute_test_1()
+            case 2:
+                execute_test_2()
+            case 3:
+                execute_test_3()
+            case 4:
+                execute_test_4()
+            case 5:
+                execute_test_5()
+            case 6:
+                execute_test_6()
+            case 7:
+                execute_test_7()
+            case 8:
+                execute_test_8()
+            case 9:
+                execute_test_9()
+
+        subprocess.run(['mv -f *_measure.txt measures/'+folder_prefix+'/'], shell=True)
+        subprocess.run(['mv -f *_filter.txt measures/'+folder_prefix+'/'], shell=True)
+        subprocess.run(['mv -f *_energy.txt measures/'+folder_prefix+'/'], shell=True)
+        subprocess.run(['mv -f *.html measures/'+folder_prefix+'/'], shell=True)
+
+        socket.send(message + "_done".encode())
