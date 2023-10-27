@@ -18,12 +18,20 @@
 sudo mkdir /usr/share/d3-flame-graph/
 sudo wget -O /usr/share/d3-flame-graph/d3-flamegraph-base.html https://cdn.jsdelivr.net/npm/d3-flame-graph@4/dist/templates/d3-flamegraph-base.html
 ```
-```sh
-# there is a script capture mw100 reads, it is proprietary, I don´t have author autorization to publish
-https://github.com/arthunix/scripts
-https://github.com/arthunix/scripts/blob/main/measure_mw100
+You need to fix the parameters in the files `constants.py` and `scripts/constants.py`
+```py
+MW100_ADDR = '192.168.0.10'
+MW100_PORT = 34318
+MW100_CHNN = '7'
+EXECUTE_FOR_TIME = '5'      # in seconds
+EXECUTE_PERF_FOR_TIME = '5' # in seconds
+DNETIF = 'enp5s0f0'
+SNETIF = 'enp5s0f1'
+DADDR = '127.0.0.1'
+SADDR = '127.0.0.1'
+DPORT = '12345'
+SPORT = '12345'
 ```
-
 ## tested on
 - `Ubuntu 20.04 LTS x86_64 GNU/Linux`
 - `Debian 12 Bookworm x86_64 GNU/Linux`
