@@ -59,3 +59,6 @@ temp
 *.svg
 *.foled
 *.perf
+__pycache__
+**/__pycache__
+measures/**
