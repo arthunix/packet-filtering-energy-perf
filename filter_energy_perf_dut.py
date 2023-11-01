@@ -5,11 +5,14 @@ import zmq
 import multiprocessing
 import subprocess
 import datetime
+import logging
 from constants import DNETIF
 from constants import DADDR
 from constants import DPORT
 from constants import EXECUTE_FOR_TIME
 from constants import EXECUTE_PERF_FOR_TIME
+
+logging.basicConfig(level=logging.INFO)
 
 context = zmq.Context()
 socket = context.socket(zmq.REP)
@@ -17,6 +20,7 @@ socket.bind("tcp://*:5555")
 
 # Abstraction to call function exec the script clean all rules
 def __unconfig_rules():
+    logging.info('./filter_rules_clean.sh -i '+ DNETIF)
     subprocess.run(['./filter_rules_clean.sh -i '+ DNETIF], shell=True)
 
 # Abstraction to call function exec the script config the rules
@@ -25,6 +29,8 @@ def __unconfig_rules():
 def __configure_rules():
     NUMBER = msg_list[-2]
     
+    logging.info('./test_'+ NUMBER +'/config.sh -d '+ DADDR +' -p '+ DPORT)
+
     if( (int(NUMBER) == 1) or (int(NUMBER) == 2) or (int(NUMBER) == 5) or (int(NUMBER) == 6) ):
         subprocess.run(['./test_'+ NUMBER +'/config.sh -d '+ DADDR +' -p '+ DPORT], shell=True)
     elif( (int(NUMBER) == 7) or (int(NUMBER) == 8) or (int(NUMBER) == 9) ):
@@ -186,7 +192,7 @@ if __name__ == '__main__':
 
         subprocess.run(['mv -f *_measure.txt measures/'+folder_prefix+'/'], shell=True)
         subprocess.run(['mv -f *_filter.txt measures/'+folder_prefix+'/'], shell=True)
-        subprocess.run(['mv -f *_energy.txt measures/'+folder_prefix+'/'], shell=True)
+        #subprocess.run(['mv -f *_energy.txt measures/'+folder_prefix+'/'], shell=True)
         subprocess.run(['mv -f *.html measures/'+folder_prefix+'/'], shell=True)
 
         socket.send(message + "_done".encode())

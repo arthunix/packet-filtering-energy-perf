@@ -58,7 +58,7 @@ sudo nft flush ruleset
 echo "=== FINISHED CLEANING FIREWALL RULES - NFTABLES ==="
 
 echo "=== CLEANING FIREWALL RULES - TC ==="
-sudo tc qdisc del dev $dIfce root
+sudo tc qdisc del dev $dIfce ingress
 sudo tc -s qdisc ls dev $dIfce
 echo "=== FINISHED CLEANING FIREWALL RULES - TC ==="
 

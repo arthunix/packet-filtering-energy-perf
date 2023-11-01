@@ -1,9 +1,9 @@
-EXECUTE_FOR_TIME = '5'     # in seconds
-EXECUTE_PERF_FOR_TIME = '5' # in seconds
+EXECUTE_FOR_TIME = '30'         # in seconds
+EXECUTE_PERF_FOR_TIME = '30'    # in seconds
 
-DNETIF = 'enp5s0f0'
-SNETIF = 'enp5s0f1'
-DADDR = '127.0.0.1'
-SADDR = '127.0.0.1'
+DNETIF = 'eth0'
+SNETIF = 'enp2s0'
+DADDR = '192.168.0.79'
+SADDR = '192.168.0.11'
 DPORT = '12345'
 SPORT = '12345'

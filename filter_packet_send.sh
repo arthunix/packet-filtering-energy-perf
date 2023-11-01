@@ -42,4 +42,4 @@ if [ -z "$destination_port" ] || [ -z "$destination_addr" ] || [ -z "$generat_pk
     exit 1
 fi
 
-sudo hping3 -I $Iface --udp --rand-source --destport $destination_port -V -d $generat_pkt_size -i u1 $destination_addr
+sudo hping3 -I $destination_ifce --udp --rand-source --destport $destination_port -V -d $generat_pkt_size -i u1 $destination_addr

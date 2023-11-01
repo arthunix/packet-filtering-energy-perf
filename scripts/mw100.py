@@ -33,7 +33,7 @@ def read_mw100(mw100_addr, mw100_port, mw100_format):
             else:
                 counter += 1
                 if(counter == 1):
-                    print("E0 flag: reading from chanell "+ MW100_CHNN)
+                    print("E0 flag: reading from channel "+ MW100_CHNN)
                 s.sendall(mw100_format.encode())
                 time.sleep(1)
                 rec = s.recv(1024).decode().split('\n')

@@ -3,18 +3,21 @@
 import zmq
 import multiprocessing
 import subprocess
+import logging
 from constants import SNETIF
 from constants import DADDR
 from constants import DPORT
 from constants import EXECUTE_FOR_TIME
 
-context = zmq.Context()
+logging.basicConfig(level=logging.INFO)
 
+context = zmq.Context()
 print("Connecting to DUT server…")
 socket = context.socket(zmq.REQ)
-socket.connect("tcp://localhost:5555")
+socket.connect("tcp://"+ DADDR +":5555")
 
 def __send_packets(size):
+    logging.info('./filter_packet_send.sh -i '+ SNETIF +' -d '+ DADDR +' -p '+ DPORT +' -s '+ str(size))
     subprocess.run(['./filter_packet_send.sh -i '+ SNETIF +' -d '+ DADDR +' -p '+ DPORT +' -s '+ str(size)], shell=True)
 
 # Abstraction to procedure to capture scripts written to tty (should work with watch and mmwatch, but is horrendous)
@@ -34,6 +37,7 @@ def __capture_stdout(command, out):
 if __name__ == '__main__':
     for pktSzIt in [16,32,64,128,256,512,1024,1472]:
         sp = multiprocessing.Process(target=__send_packets, args=(pktSzIt,))
+        sp.start()
         for TestIt in [1,2,3,4,5,6,7,8,9,10]:
             for TestNumIt in [1,2,3,4,5,6,7,8,9]:
 
@@ -42,8 +46,8 @@ if __name__ == '__main__':
 
                 en.start()
                 print("packet size      : %s" % pktSzIt)
-                print("test repetition  : %s" % TestNumIt)
-                print("test number      : %s" % TestIt)
+                print("test repetition  : %s" % TestIt)
+                print("test number      : %s" % TestNumIt)
                 
                 request = str(pktSzIt) + "_" + str(TestIt)  + "_" + str(TestNumIt) + "_test"
                 print("Sending request: %s" % request)
